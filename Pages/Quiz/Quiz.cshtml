@@ -1,0 +1,112 @@
+﻿@page
+@model ABTQuiz.Pages.Quiz.QuizModel
+
+@{
+    ViewData["Title"] = "Quiz";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+    var EndTime = DateTime.UtcNow.AddSeconds(120);
+    var TimeRem = TimeSpan.FromTicks(EndTime.Ticks - DateTime.UtcNow.Ticks).TotalSeconds;
+}
+
+<h1>Quiz Contest</h1>
+@if (Model.QuizQuestions.Count() < 10)
+{
+    <div class="row text-danger">
+        Sorry There are not enough questions listed for the Quiz.
+        <a href="/quiz/qalist" class="btn btn-primary"> Go To Questions Page </a>
+    </div>
+}
+else if (Model.IsTestComplete)
+{
+    if (Model.TestScore <= 4)
+    {
+        <div class="row text-danger">
+            Sorry you have failed.
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            you have passed the test with @Model.TestScore marks out of 10.
+        </div>
+    }
+<div class="row">
+    
+    <a href="@Url.Page("/quiz/quiz")?handler=retake"> Click Here</a> To delete Previous test data and Retake another Test.
+</div>
+}
+else
+{
+    <div class="row">
+        <div class="row">
+            Here Are the Questons Kindly select Only one Ans and submit to see what you know about the mountains of Nepal.
+        </div>
+        <div class="row">
+            Your Time: <p id="TimeRemMin">0</p> min <p id="TimeRemMin">0</p> sec
+        </div>
+        <div class="row">
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+
+                @for (int i = 0; i < 10; i++)
+                {
+                    var _question = Model.QuizQuestions[i];
+                    <div class=" row QuestionAns">
+                        <div class="row question">
+                            @_question.Question
+                        </div>
+                        <div class="row answer-list">
+                            <div class="row form-group">
+                                <input type="radio" name="QuizAnsList[@i]" id="QuizAnsList[@i]_1" value="@_question.AnswerOne" />
+                                <label class="control-label" for="QuizAnsList[@i]_1"> @_question.AnswerOne </label>
+                            </div>
+                            <div class="row form-group">
+                                <input type="radio" name="QuizAnsList[@i]" id="QuizAnsList[@i]_2" value="@_question.AnswerTwo" />
+                                <label class="control-label" for="QuizAnsList[@i]_2"> @_question.AnswerTwo </label>
+                            </div>
+                            <div class="row form-group">
+                                <input type="radio" name="QuizAnsList[@i]" id="QuizAnsList[@i]_3" value="@_question.AnswerThree" />
+                                <label class="control-label" for="QuizAnsList[@i]_3"> @_question.AnswerThree </label>
+                            </div>
+                            <div class="row form-group">
+                                <input type="radio" name="QuizAnsList[@i]" id="QuizAnsList[@i]_4" value="@_question.AnswerFour" />
+                                <label for="QuizAnsList[@i]_4" class="control-label"> @_question.AnswerFour </label>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+    var TimeRem =@TimeRem;
+    var SecondsTimmer = TimeRem % 60;
+
+    function StartTick() {
+        document.getElementById("TimeRemSec").innerText = SecondsTimmer;
+        document.getElementById("TimeRemMin").innerText = parseInt(TimeRem / 60);
+        var _Tick = setInterval(function () {
+            if (TimeRem > 0) {
+                TimeRem = TimeRem - 1;
+                SecondsTimmer = SecondsTimmer - 1;
+                document.getElementById("TimeRemSec").innerText = SecondsTimmer;
+                document.getElementById("TimeRemMin").innerText = parseInt(TimeRem / 60);
+                if (SecondsTimmer == 0) {
+                    SecondsTimmer = 60;
+                }
+            }
+            else {
+                clearInterval(_Tick);
+                alert("Time Out");
+            }
+        }, 1000);
+        }
+        window.onload(StartTick());
+    </script>
+}
+

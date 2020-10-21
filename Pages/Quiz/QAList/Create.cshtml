@@ -1,0 +1,60 @@
+﻿@page
+@model ABTQuiz.Pages.Quiz.QAList.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>QuizQuestions</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="QuizQuestions.Question" class="control-label"></label>
+                <input asp-for="QuizQuestions.Question" class="form-control" />
+                <span asp-validation-for="QuizQuestions.Question" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuizQuestions.AnswerOne" class="control-label"></label>
+                <input asp-for="QuizQuestions.AnswerOne" class="form-control" />
+                <span asp-validation-for="QuizQuestions.AnswerOne" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuizQuestions.AnswerTwo" class="control-label"></label>
+                <input asp-for="QuizQuestions.AnswerTwo" class="form-control" />
+                <span asp-validation-for="QuizQuestions.AnswerTwo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuizQuestions.AnswerThree" class="control-label"></label>
+                <input asp-for="QuizQuestions.AnswerThree" class="form-control" />
+                <span asp-validation-for="QuizQuestions.AnswerThree" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuizQuestions.AnswerFour" class="control-label"></label>
+                <input asp-for="QuizQuestions.AnswerFour" class="form-control" />
+                <span asp-validation-for="QuizQuestions.AnswerFour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="QuizQuestions.CorrectAns" class="control-label"></label>
+                <input asp-for="QuizQuestions.CorrectAns" class="form-control" />
+                <span asp-validation-for="QuizQuestions.CorrectAns" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
